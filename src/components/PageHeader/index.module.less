@@ -1,0 +1,44 @@
+.page-header {
+  margin: -16px -16px 16px;
+  padding: 32px 16px;
+  background: #fff;
+  &--top {
+    display: flex;
+    &__left {
+      display: flex;
+      flex: 1;
+      align-items: center;
+    }
+    &__title {
+      font-size: 20px;
+      height: 28px;
+      .icon{
+        margin-right: 6px;
+        cursor: pointer;
+      }
+    }
+    &__sub-title {
+      margin-left: 12px;
+      font-size: 14px;
+      color: #999;
+      padding-top: 3px;
+    }
+
+    &__extra {
+      justify-content: flex-end;
+      >*{
+        margin-left: 12px;
+      }
+    }
+  }
+}
+
+// margin-right: 12px;
+//     margin-bottom: 0;
+//     color: rgba(0,0,0,.85);
+//     font-weight: 600;
+//     font-size: 20px;
+//     line-height: 32px;
+//     overflow: hidden;
+//     white-space: nowrap;
+//     text-overflow: ellipsis;

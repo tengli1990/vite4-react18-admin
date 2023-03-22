@@ -1,0 +1,43 @@
+.ant-layout {
+  height: 100vh;
+
+  &--sider {
+    min-height: 100vh;
+  }
+}
+
+.logo {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.trigger {
+  display: flex;
+  font-size: 16px;
+}
+
+// ant-header
+.header {
+  position: relative;
+  z-index: 10;
+  padding: 0 24px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 0 10px 1px rgba(0, 0, 0, 0.05);
+}
+
+.content {
+  transform: translateX(30px);
+  opacity: 0;
+  margin: 16px;
+}
+
+.slide-right {
+  transform: translateX(0);
+  transition: 0.3s ease-out;
+  opacity: 1;
+}
