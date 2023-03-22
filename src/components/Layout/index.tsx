@@ -63,7 +63,6 @@ interface IProps {
 const Layout = (props: IProps) => {
   const navigate = useNavigate()
   const location = useLocation()
-  const { userInfo, setCurrentUser } = props
 
   const app = useSelector((state: any) => state.user)
   const dispatch = useDispatch();
@@ -122,25 +121,24 @@ const Layout = (props: IProps) => {
   }, [memoSubKeys, collapsed])
 
   useEffect(() => {
-    setTimeout(() => {
-      setAnimationClassname('slide-right')
-    })
-    return () => {
-      console.log('卸载')
-      setAnimationClassname('')
-    }
+    // setTimeout(() => {
+    //   setAnimationClassname('slide-right')
+    // })
+    // return () => {
+    //   setAnimationClassname('')
+    // }
   }, [location])
 
   useEffect(() => {
-    setTimeout(() => {
-      // setCurrentUser({
-      //   name: '里疼'
-      // })
-      dispatch({
-        type: 'user/setCurrentUser',
-        payload: { name: '里疼' }
-      })
-    }, 2000)
+    // setTimeout(() => {
+    //   // setCurrentUser({
+    //   //   name: '里疼'
+    //   // })
+    //   dispatch({
+    //     type: 'user/setCurrentUser',
+    //     payload: { name: '里疼' }
+    //   })
+    // }, 2000)
   }, [])
 
   return (
@@ -189,8 +187,4 @@ const Layout = (props: IProps) => {
   )
 }
 
-export default connect(({ user }: any) => ({
-  userInfo: user
-}), ({ user }) => ({
-  setCurrentUser: user.setCurrentUser
-}))(Layout)
+export default Layout

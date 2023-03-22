@@ -33,6 +33,7 @@ const AppRouter = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    console.log('222222222')
     dispatch({
       type: 'user/getUserInfo'
     })
@@ -61,6 +62,7 @@ const AppRouter = () => {
   }
 
   const appRoutes = useMemo(() => {
+    console.log('approutes')
     const allRoutes = [loginRoute, mainRoute, ErrorRoute];
     return createBrowserRouter(formatRoute(allRoutes))
   }, [formatRoute])
