@@ -10,12 +10,6 @@ import Layout from "../components/Layout"
 import { Roles, RouterType } from "../types"
 import lazyLoad from './lazyLoad'
 
-const Home = lazy(() => import('@/views/Home'))
-const BasicList = lazy(() => import('@/views/list/BasicList'))
-const QueryList = lazy(() => import('@/views/list/QueryList'))
-const JSONViews = lazy(() => import('@/views/editor/JSON'))
-const RichText = lazy(() => import('@/views/editor/RichText'))
-
 import { INDEX, LIST_MANAGER, EDITOR_MANAGER, ABOUT } from '@/config/permission.config'
 
 export const mainRoute: RouterType = {
@@ -25,7 +19,7 @@ export const mainRoute: RouterType = {
     {
       path: "",
       label: "首页",
-      element: lazyLoad(<Home />),
+      element: lazyLoad(() => import('@/views/Home')),
       icon: <HomeOutlined />,
       meta: {
         permissions: [INDEX.ID]
@@ -43,7 +37,7 @@ export const mainRoute: RouterType = {
         {
           path: "basic",
           label: "基础列表",
-          element: lazyLoad(<BasicList />),
+          element: lazyLoad(() => import('@/views/list/BasicList')),
           meta: {
             permissions: [LIST_MANAGER.BASIC]
           }
@@ -51,8 +45,7 @@ export const mainRoute: RouterType = {
         {
           path: "query",
           label: "查询列表",
-          element: lazyLoad(<QueryList />),
-          auth: [Roles.ADMIN],
+          element: lazyLoad(() => import('@/views/list/QueryList')),
           meta: {
             permissions: [LIST_MANAGER.QUERY]
           }
@@ -71,7 +64,7 @@ export const mainRoute: RouterType = {
         {
           path: "json",
           label: "json编辑器",
-          element: lazyLoad(<JSONViews />),
+          element: lazyLoad(() => import('@/views/editor/JSON')),
           meta: {
             permissions: [EDITOR_MANAGER.JSON]
           }
@@ -79,7 +72,7 @@ export const mainRoute: RouterType = {
         {
           path: "richtext",
           label: "富文本",
-          element: lazyLoad(<RichText />),
+          element: lazyLoad(() => import('@/views/editor/RichText')),
           meta: {
             permissions: [EDITOR_MANAGER.RICHTEXT]
           }

@@ -11,8 +11,6 @@ export type RouterType = {
   name?: string
   label?: string
   hide?: boolean
-  // auth props
-  auth?: Roles[],
   meta?: {
     verification?: false;
     permissions?: string[];
