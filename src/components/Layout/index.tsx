@@ -55,12 +55,7 @@ const pathname2selectedKeys = (pathname: string) => {
 }
 
 
-interface IProps {
-  userInfo: any,
-  setCurrentUser: any
-}
-
-const Layout = (props: IProps) => {
+const Layout = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
