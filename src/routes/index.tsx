@@ -1,6 +1,6 @@
 import { useMemo, useEffect } from 'react';
 import { createBrowserRouter, RouteObject, RouterProvider, useNavigate, useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { getToken } from '@/utils/token';
 import { RouterType } from '../types'
 
@@ -29,21 +29,33 @@ const Render = (props: any) => {
 
 const AppRouter = () => {
 
-  const userInfo = useSelector((state: any) => state.user)
-  console.log('routes/index.tsx', userInfo)
+  const user = useSelector((state: any) => state.user)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch({
+      type: 'user/getUserInfo'
+    })
+  }, [])
 
   // 过滤路由
   const formatRoute = (routes: RouterType[]): RouteObject[] => {
     const _routes: RouteObject[] = [];
     for (const route of routes) {
-      const { path, element, children } = route;
-      // if (auth === undefined || auth.includes(userInfo.role!)) {
-      _routes.push({
+
+      const { path, element, children, meta = {} } = route;
+
+      const item = {
         path,
         element: <Render {...route}>{element}</Render>,
         children: children ? formatRoute(children) : undefined
-      })
-      // }
+      }
+
+      const hasPermission: boolean | undefined = meta.permissions?.some((permission: string) => user.permissions.includes(permission));
+
+      if (hasPermission || !meta.permissions) {
+        _routes.push(item)
+      }
     }
     return _routes
   }
@@ -51,7 +63,8 @@ const AppRouter = () => {
   const appRoutes = useMemo(() => {
     const allRoutes = [loginRoute, mainRoute, ErrorRoute];
     return createBrowserRouter(formatRoute(allRoutes))
-  }, [])
+  }, [formatRoute])
+
   return <RouterProvider router={appRoutes} />
 }
 

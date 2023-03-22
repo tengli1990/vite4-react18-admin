@@ -22,7 +22,7 @@ const formatMenu = (menuRoutes: RouterType[] | undefined) => {
     return
   }
 
-  const userInfo = useContext(UserContext)
+  const user = useSelector((state: any) => state.user)
   const menus: MenuItem[] = []
 
   for (const route of menuRoutes) {
@@ -33,10 +33,9 @@ const formatMenu = (menuRoutes: RouterType[] | undefined) => {
       children: formatMenu(route.children),
     } as MenuItem
 
-    if (
-      route.hide !== true &&
-      (route.auth === undefined || route.auth?.includes(userInfo.user.role!))
-    ) {
+    const hasPermission: boolean | undefined = route?.meta?.permissions?.some((permission: string) => user.permissions.includes(permission))
+
+    if (route.hide !== true && (hasPermission || !route.meta?.permissions)) {
       menus.push(menu)
     }
   }
@@ -146,9 +145,7 @@ const Layout = (props: IProps) => {
 
   return (
     <Fragment>
-      {/* 拦截 */}
       {/* {userInfo.userCheck() === false && <Navigate to="/login" replace />} */}
-
       <AntdLayout className={styles['ant-layout']}>
         <Sider
           className={styles['ant-layout--sider']}

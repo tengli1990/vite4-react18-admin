@@ -1,6 +1,6 @@
 import { getUserInfo } from '@/apis/user'
 import { useNavigate } from 'react-router-dom'
-import { getToken, setToken, setUser, removeToken, removeUser } from "@/utils/token"
+import { getToken, setToken, setUser, getUser, removeToken, removeUser } from "@/utils/token"
 
 
 export interface IUserState {
@@ -24,6 +24,9 @@ const user = {
 
     updateToken(state: IUserState, token: string) {
       return { ...state, ...{ token } }
+    },
+    updatePermissions(state: IUserState, permissions: string[]) {
+      return { ...state, ...{ permissions } }
     }
   },
   effects: () => ({
@@ -35,20 +38,34 @@ const user = {
       (this as any).updateToken(getToken())
       return (this as any).token
     },
-    getUserInfo(payload: any) {
-      const { navigate, redirect } = payload
-      getUserInfo().then(res => {
-        if (res.code !== '0000') {
-          return
-        }
-        const { data } = res;
+    getUserInfo(payload: any = {}) {
+      const { navigate, redirect = '/' } = payload
 
-
+      const handlerFn = (data: any) => {
         setToken(data.token);
         setUser(data);
 
+        (this as any).updatePermissions(data.permissions);
         (this as any).updateToken(data.token);
-        navigate(redirect, { replace: true });
+      }
+
+      const userData = getUser()
+
+      if (userData) {
+        handlerFn(userData)
+      }
+
+      getUserInfo().then((res: any) => {
+        if (res.code !== '0000') {
+          return
+        }
+        const { data }: any = res;
+
+        handlerFn(data)
+
+        if (navigate) {
+          navigate(redirect, { replace: true });
+        }
       })
     },
     logout(payload: any) {
